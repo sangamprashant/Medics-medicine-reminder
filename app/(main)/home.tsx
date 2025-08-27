@@ -69,42 +69,6 @@ const reminders = [
     color: '#FBC02D',
     done: true,
   },
-  {
-    id: '1d',
-    time: '08:00',
-    name: 'Paracetamol',
-    dose: '1 Tablet - Before or After meal',
-    icon: 'ellipse',
-    color: '#FBC02D',
-    done: true,
-  },
-  {
-    id: '1dfg',
-    time: '08:00',
-    name: 'Paracetamol',
-    dose: '1 Tablet - Before or After meal',
-    icon: 'ellipse',
-    color: '#FBC02D',
-    done: true,
-  },
-  {
-    id: 'fg1',
-    time: '08:00',
-    name: 'Paracetamol',
-    dose: '1 Tablet - Before or After meal',
-    icon: 'ellipse',
-    color: '#FBC02D',
-    done: true,
-  },
-  {
-    id: 'dfg1',
-    time: '08:00',
-    name: 'Paracetamol',
-    dose: '1 Tablet - Before or After meal',
-    icon: 'ellipse',
-    color: '#FBC02D',
-    done: true,
-  },
 ];
 
 const Home = () => {

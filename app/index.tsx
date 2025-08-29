@@ -7,7 +7,7 @@ export default function Index() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      router.replace("/(main)/medicine");
+      router.replace("/(main)/home");
     }, 2000);
     return () => clearTimeout(timeout);
   }, []);

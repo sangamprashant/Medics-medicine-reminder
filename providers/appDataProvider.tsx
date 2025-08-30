@@ -21,7 +21,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
                 console.log("Fetched reminders:", reminders);
                 setReminderList(reminders);
             } catch (error) {
-                console.error("Error fetching reminders:", error);
+                console.error("Error fetching reminders:", error); 
             }
         };
 

@@ -24,7 +24,7 @@ const ReminderItems = (item: RawReminder) => {
             case "injection":
                 return [MaterialCommunityIcons, "needle", "#f44336"];
             case "cream":
-                return [Ionicons, "color-fill", "#795548"]; // pulled from Ionicons
+                return [MaterialCommunityIcons, "lotion-plus-outline", "#795548"]; // pulled from Ionicons
             default:
                 return [Ionicons, "add-circle", "#607d8b"];
         }

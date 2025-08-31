@@ -14,9 +14,10 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
     const [reminderList, setReminderList] = useState<RawReminder[]>([]);
 
     useEffect(() => {
+        let today = new Date();
         const fetchReminders = async () => {
             try {
-                const reminders: RawReminder[] = await getRemindersByDate(db, new Date());
+                const reminders: RawReminder[] = await getRemindersByDate(db, today);
                 console.log("Fetched reminders:", reminders);
                 setReminderList(reminders);
             } catch (error) {

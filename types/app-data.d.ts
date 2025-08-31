@@ -2,7 +2,6 @@
 type MedicineType =
   | "tablet"
   | "ml"
-  | "capsule"
   | "syrup"
   | "injection"
   | "cream";
@@ -31,7 +30,7 @@ interface RawReminder {
   date: string;                // ISO string from SQLite
   medicine: number;            // medicine id
   medicineName: string;        // joined from medicines table
-  medicineType: string;        // joined from medicines table
+  medicineType: MedicineType;        // joined from medicines table
   dose: string;
   frequency: string;
   consume: "Before meal" | "After meal";

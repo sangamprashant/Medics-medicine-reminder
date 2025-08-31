@@ -49,7 +49,6 @@ export const commonMedicines = [
 export const medicineTypes: { label: string; value: MedicineType }[] = [
   { label: "Tablet", value: "tablet" },
   { label: "ml (liquid)", value: "ml" },
-  { label: "Capsule", value: "capsule" },
   { label: "Syrup", value: "syrup" },
   { label: "Injection", value: "injection" },
   { label: "Cream", value: "cream" },

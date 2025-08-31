@@ -1,20 +1,46 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 
+type IconRenderTuple = [React.ComponentType<any>, string, string];
+
+
 const ReminderItems = (item: RawReminder) => {
-    // Convert string to Date
     const dateObj = new Date(item.date);
     const day = dateObj.getDate();
     const month = dateObj.toLocaleString('default', { month: 'long' });
     const year = dateObj.getFullYear();
     const currentYear = new Date().getFullYear();
 
+    const getIconByType = (type: MedicineType): IconRenderTuple => {
+        switch (type) {
+            case "tablet":
+                return [MaterialCommunityIcons, "pill", "#4caf50"];
+            case "ml":
+                return [MaterialCommunityIcons, "water", "#2196f3"];
+            case "syrup":
+                return [MaterialCommunityIcons, "flask", "#ff9800"];
+            case "injection":
+                return [MaterialCommunityIcons, "needle", "#f44336"];
+            case "cream":
+                return [Ionicons, "color-fill", "#795548"]; // pulled from Ionicons
+            default:
+                return [Ionicons, "add-circle", "#607d8b"];
+        }
+    };
+
+    const [IconComponent, iconName, iconColor] = getIconByType(item.medicineType);
+
     return (
         <View key={item.id} style={styles.card}>
             <View style={styles.cardLeft}>
-                <Ionicons name="add-circle" size={24} style={styles.icon} />
+                <IconComponent
+                    name={iconName}
+                    size={24}
+                    style={styles.icon}
+                    color={iconColor}
+                />
                 <View>
                     <Text style={styles.time}>{day + " " + month + (year === currentYear ? "" : ", " + year)}</Text>
                     <Text style={styles.name}>{item.medicineName}</Text>
@@ -24,7 +50,7 @@ const ReminderItems = (item: RawReminder) => {
             <Checkbox
                 status={item.done ? 'checked' : 'unchecked'}
                 onPress={() => {
-                    
+
                 }}
             />
         </View>

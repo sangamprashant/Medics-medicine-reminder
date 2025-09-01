@@ -184,10 +184,16 @@ export async function updateReminderStatus(
   db: SQLiteDatabase,
   id: number,
   done: boolean
-) {
-  await db.runAsync(
-    "UPDATE reminders SET done = ? WHERE id = ?",
-    done ? 1 : 0,
-    id
-  );
+): Promise<boolean> {
+  try {
+    await db.runAsync(
+      "UPDATE reminders SET done = ? WHERE id = ?",
+      done ? 1 : 0,
+      id
+    );
+    return true;
+  } catch (error) {
+    console.error("Error updating reminder status:", error);
+    return false;
+  }
 }

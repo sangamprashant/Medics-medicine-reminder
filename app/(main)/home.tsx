@@ -2,11 +2,12 @@ import AddButton from '@/components/AddButton';
 import CommonWrapper from '@/components/CommonWrapper';
 import ReminderItems from '@/components/home/ReminderItems';
 import { useAppData } from '@/providers/appDataProvider';
+import { _colors } from '@/theme';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const Home = () => {
-  const { reminderList } = useAppData()
+  const { reminderList, todaysLoading } = useAppData()
   return (
     <CommonWrapper padding={0}>
       <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 20 }}>
@@ -14,13 +15,23 @@ const Home = () => {
         <Text style={styles.subheader}>Don’t forget to take your medicine today.</Text>
 
         <Text style={styles.sectionTitle}>Today’s reminder</Text>
-        <ScrollView showsVerticalScrollIndicator={false} >
-
-          {reminderList.map((item) => (
-            <ReminderItems key={item.id} {...item} />
-          ))}
-
-        </ScrollView>
+        {todaysLoading ? (
+          <>
+            <ActivityIndicator size="large" color={_colors.primary} style={{ marginTop: 40 }} />
+          </>
+        ) : (
+          <>
+            {reminderList.length === 0 ? (
+              <Text style={{ color: '#777', marginTop: 20 }}>No reminders for today. Enjoy your day!</Text>
+            ) : (
+              <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
+                {reminderList.map((item) => (
+                  <ReminderItems key={item.id} {...item} />
+                ))}
+              </ScrollView>
+            )}
+          </>
+        )}
       </View>
       <AddButton />
     </CommonWrapper>

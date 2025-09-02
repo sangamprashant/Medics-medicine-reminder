@@ -6,6 +6,8 @@ import { useSQLiteContext } from "expo-sqlite";
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
+import Medi from "./medi.svg";
+
 const AddMedicine = () => {
     const [medicineName, setMedicineName] = useState("");
     const [medicineType, setMedicineType] = useState<MedicineType>("tablet");
@@ -31,6 +33,8 @@ const AddMedicine = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Add Medicine</Text>
+
+            <Medi width={120} height={120} style={{ alignSelf: "center", marginBottom: 20 }} />
 
             {/* Medicine Name */}
             <Text style={styles.label}>Medicine Name</Text>

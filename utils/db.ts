@@ -197,3 +197,42 @@ export async function updateReminderStatus(
     return false;
   }
 }
+
+// Page size = 10 days
+const PAGE_SIZE = 10;
+
+// only today and previous dates in group i 10-10 like pageinition 
+export async function getGroupedByDate(db: SQLiteDatabase, page: number = 1) {
+  const offset = (page - 1) * PAGE_SIZE;
+  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+  // Step 1: Get distinct days (date only, ignoring time)
+  const days = await db.getAllAsync<{ day: string }>(
+    `SELECT DISTINCT substr(date, 1, 10) as day
+     FROM reminders
+     WHERE day <= ?
+     ORDER BY day DESC
+     LIMIT ? OFFSET ?`,
+    [today, PAGE_SIZE, offset]
+  );
+
+  if (!days.length) return [];
+
+  const groups: { date: string; reminders: RawReminder[] }[] = [];
+
+  // Step 2: For each day, get all reminders
+  for (const { day } of days) {
+    const reminders = await db.getAllAsync<RawReminder>(
+      `SELECT r.*, m.name as medicineName, m.type as medicineType
+       FROM reminders r
+       LEFT JOIN medicines m ON r.medicine = m.id
+       WHERE substr(r.date, 1, 10) = ?
+       ORDER BY r.date ASC`,
+      [day]
+    );
+
+    groups.push({ date: day, reminders });
+  }
+
+  return groups;
+}

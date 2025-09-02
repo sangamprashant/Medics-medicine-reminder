@@ -5,19 +5,21 @@ import { formatDate, formatDateYYYMMDD } from '@/utils/date';
 import { getRemindersByDate } from '@/utils/db';
 import { useSQLiteContext } from 'expo-sqlite';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 const Schedule: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [reminders, setReminders] = useState<RawReminder[]>([])
   const db = useSQLiteContext()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetcData = async () => {
+      setLoading(true)
       const reminders: RawReminder[] = await getRemindersByDate(db, selectedDate);
       setReminders(reminders)
-      console.log("Reminders for selected date:", reminders);
+      setLoading(false)
     }
     fetcData()
   }, [db, selectedDate])
@@ -40,20 +42,28 @@ const Schedule: React.FC = () => {
           }}
         />
         <Text style={styles.dateTitle}>{formatDate(selectedDate)}</Text>
-        {reminders.length === 0 ? (
-          <Text style={styles.noReminder}>No reminder.</Text>
+        {loading ? (
+          <>
+            <ActivityIndicator size="large" color={_colors.primary} style={{ marginTop: 40 }} />
+          </>
         ) : (
-          <FlatList
-            data={reminders}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <Text style={styles.time}>{item.medicineName} - {item.medicineType}</Text>
-                <Text style={styles.dosage}>{item.dose}</Text>
-              </View>
+          <>
+            {reminders.length === 0 ? (
+              <Text style={styles.noReminder}>No reminder.</Text>
+            ) : (
+              <FlatList
+                data={reminders}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <View style={styles.card}>
+                    <Text style={styles.time}>{item.medicineName} - {item.medicineType}</Text>
+                    <Text style={styles.dosage}>{item.dose}</Text>
+                  </View>
+                )}
+              />
             )}
-          />
+          </>
         )}
       </View>
       <AddButton />

@@ -1,3 +1,4 @@
+import { _colors } from '@/theme';
 import { updateReminderStatus } from '@/utils/db';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -62,6 +63,7 @@ const ReminderItems = (i: RawReminder) => {
                 onPress={() => {
                     handleCheckBoxYes()
                 }}
+                color={_colors.primary}
             />
         </View>
     );

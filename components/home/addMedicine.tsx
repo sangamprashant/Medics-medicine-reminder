@@ -4,13 +4,13 @@ import { addMedicine } from "@/utils/db";
 import { Picker } from "@react-native-picker/picker";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import Medi from "./medi.svg";
 
 const AddMedicine = () => {
     const [medicineName, setMedicineName] = useState("");
     const [medicineType, setMedicineType] = useState<MedicineType>("tablet");
+    const [loading, setLoading] = useState(false);
 
     const db = useSQLiteContext();
 
@@ -20,6 +20,7 @@ const AddMedicine = () => {
             return;
         }
 
+        setLoading(true);
         const trimName = medicineName.trim().toLowerCase();
         const upperName = trimName.charAt(0).toUpperCase() + trimName.slice(1);
 
@@ -28,42 +29,46 @@ const AddMedicine = () => {
         Alert.alert("Success", "Medicine added successfully!");
         setMedicineName("");
         setMedicineType("tablet");
+        setLoading(false);
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Add Medicine</Text>
+        <KeyboardAvoidingView style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 150 : 0}
 
-            <Medi width={120} height={120} style={{ alignSelf: "center", marginBottom: 20 }} />
+        >
+            <Text style={{ fontSize: 22, fontWeight: "bold", margin: 16 }}>Add New Medicine</Text>
+            <View style={styles.container}>
+                {/* <Medi width={100} height={100} style={{ alignSelf: "center", marginBottom: 20 }} /> */}
 
-            {/* Medicine Name */}
-            <Text style={styles.label}>Medicine Name</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Enter medicine name"
-                value={medicineName}
-                onChangeText={setMedicineName}
-            />
+                {/* Medicine Name */}
+                <Text style={styles.label}>Medicine Name</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter medicine name"
+                    value={medicineName}
+                    onChangeText={setMedicineName}
+                />
 
-            {/* Medicine Type */}
-            <Text style={styles.label}>Type</Text>
-            <View style={styles.pickerWrapper}>
-                <Picker
-                    selectedValue={medicineType}
-                    onValueChange={(itemValue) => setMedicineType(itemValue as MedicineType)}
-                >
-                    {medicineTypes.map((type) => (
-                        <Picker.Item key={type.value} label={type.label} value={type.value} />
-                    ))}
-                </Picker>
+                {/* Medicine Type */}
+                <Text style={styles.label}>Type</Text>
+                <View style={styles.pickerWrapper}>
+                    <Picker
+                        selectedValue={medicineType}
+                        onValueChange={(itemValue) => setMedicineType(itemValue as MedicineType)}
+                    >
+                        {medicineTypes.map((type) => (
+                            <Picker.Item key={type.value} label={type.label} value={type.value} />
+                        ))}
+                    </Picker>
+                </View>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
+                    <Text style={styles.buttonText}>Add New Medicine</Text>
+                </TouchableOpacity>
+
             </View>
-
-            {/* Submit Button */}
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Save Medicine</Text>
-            </TouchableOpacity>
-
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -74,12 +79,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         backgroundColor: "#fff",
-    },
-    title: {
-        fontSize: 22,
-        fontWeight: "bold",
-        marginBottom: 20,
-        color: "#333",
     },
     label: {
         fontSize: 15,

@@ -22,7 +22,9 @@ const Home = () => {
         ) : (
           <>
             {reminderList.length === 0 ? (
-              <Text style={{ color: '#777', marginTop: 20 }}>No reminders for today. Enjoy your day!</Text>
+              <View style={{ alignItems: 'center', flex: 1, backgroundColor: "#eee", justifyContent: "center" }}>
+                <Text style={{ color: '#777'}}>No reminders for today. Enjoy your day!</Text>
+              </View>
             ) : (
               <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
                 {reminderList.map((item) => (

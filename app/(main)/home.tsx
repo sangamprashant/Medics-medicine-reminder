@@ -8,8 +8,7 @@ import React from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Home = () => {
-  const { reminderList, todaysLoading, fetchReminders } = useAppData();
-  let user = { name: "Prashant Srivastv" };
+  const { reminderList, todaysLoading, fetchReminders, userName } = useAppData();
   return (
     <CommonWrapper padding={0}>
       <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 20 }}>
@@ -17,7 +16,7 @@ const Home = () => {
         {/* Greeting Section */}
         <View style={[]}>
           <Text style={styles.header}>Hello 👋</Text>
-          <Text style={styles.userName}>{user.name}</Text>
+          <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.subheader}>Don’t forget to take your medicine today.</Text>
         </View>
 

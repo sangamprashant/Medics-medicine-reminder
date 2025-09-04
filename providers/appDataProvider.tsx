@@ -1,5 +1,6 @@
 // appDataProvider.tsx
 import { getRemindersByDate } from "@/utils/db";
+import { saveUserName } from "@/utils/storage";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
@@ -7,6 +8,8 @@ type AppDataContextType = {
     reminderList: RawReminder[],
     todaysLoading: boolean
     fetchReminders: () => void
+    handleName: (n: string) => void
+    userName: string
 };
 
 const AppDataContext = createContext<AppDataContextType | undefined>(undefined);
@@ -15,8 +18,9 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
     const db = useSQLiteContext()
     const [reminderList, setReminderList] = useState<RawReminder[]>([]);
     const [todaysLoading, setTodaysLoading] = useState(true);
-
+    const [userName, setUSerName] = useState<string>("")
     let today = new Date();
+
     const fetchReminders = async () => {
         try {
             setTodaysLoading(true)
@@ -33,8 +37,13 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
         fetchReminders();
     }, [db]);
 
+    const handleName = async (n: string) => {
+        setUSerName(n)
+        await saveUserName(n)
+    }
+
     return (
-        <AppDataContext.Provider value={{ reminderList, todaysLoading, fetchReminders }}>
+        <AppDataContext.Provider value={{ reminderList, todaysLoading, fetchReminders, handleName, userName }}>
             {children}
         </AppDataContext.Provider>
     );

@@ -40,7 +40,6 @@ const AddMedicine = () => {
         >
             <Text style={{ fontSize: 22, fontWeight: "bold", margin: 16 }}>Add New Medicine</Text>
             <View style={styles.container}>
-                {/* <Medi width={100} height={100} style={{ alignSelf: "center", marginBottom: 20 }} /> */}
 
                 {/* Medicine Name */}
                 <Text style={styles.label}>Medicine Name</Text>

@@ -6,6 +6,7 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 type AppDataContextType = {
     reminderList: RawReminder[],
     todaysLoading: boolean
+    fetchReminders: () => void
 };
 
 const AppDataContext = createContext<AppDataContextType | undefined>(undefined);
@@ -15,24 +16,25 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
     const [reminderList, setReminderList] = useState<RawReminder[]>([]);
     const [todaysLoading, setTodaysLoading] = useState(true);
 
+    let today = new Date();
+    const fetchReminders = async () => {
+        try {
+            setTodaysLoading(true)
+            const reminders: RawReminder[] = await getRemindersByDate(db, today);
+            setReminderList(reminders);
+        } catch (error) {
+            console.error("Error fetching reminders:", error);
+        } finally {
+            setTodaysLoading(false)
+        }
+    };
+
     useEffect(() => {
-        let today = new Date();
-        const fetchReminders = async () => {
-            try {
-                setTodaysLoading(true)
-                const reminders: RawReminder[] = await getRemindersByDate(db, today);
-                setReminderList(reminders);
-            } catch (error) {
-                console.error("Error fetching reminders:", error);
-            } finally {
-                setTodaysLoading(false)
-            }
-        };
         fetchReminders();
     }, [db]);
 
     return (
-        <AppDataContext.Provider value={{ reminderList, todaysLoading }}>
+        <AppDataContext.Provider value={{ reminderList, todaysLoading, fetchReminders }}>
             {children}
         </AppDataContext.Provider>
     );

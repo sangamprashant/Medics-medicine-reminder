@@ -5,12 +5,11 @@ import { useAppData } from '@/providers/appDataProvider';
 import { _colors } from '@/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Home = () => {
-  const { reminderList, todaysLoading } = useAppData();
-  let user = { name: "Prashant Srivastv" }; // Placeholder for user data
-
+  const { reminderList, todaysLoading, fetchReminders } = useAppData();
+  let user = { name: "Prashant Srivastv" };
   return (
     <CommonWrapper padding={0}>
       <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 20 }}>
@@ -20,17 +19,15 @@ const Home = () => {
           <Text style={styles.header}>Hello 👋</Text>
           <Text style={styles.userName}>{user.name}</Text>
           <Text style={styles.subheader}>Don’t forget to take your medicine today.</Text>
-          <Text style={styles.dateText}>
-            {new Date().toLocaleDateString('en-US', {
-              weekday: 'long',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </Text>
         </View>
 
         {/* Reminder Section */}
-        <Text style={styles.sectionTitle}>Today’s Reminders</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
+          <Text style={styles.sectionTitle}>Today’s Reminders</Text>
+          <TouchableOpacity onPress={fetchReminders}>
+            <MaterialIcons name="sync" size={20} color={_colors.primary} />
+          </TouchableOpacity>
+        </View>
         {todaysLoading ? (
           <ActivityIndicator size="large" color={_colors.primary} style={{ marginTop: 40 }} />
         ) : (
@@ -72,14 +69,10 @@ const styles = StyleSheet.create({
   },
   subheader: {
     fontSize: 15,
-    marginBottom: 10,
+    marginBottom: 8,
     color: '#555',
   },
-  dateText: {
-    fontSize: 15,
-  },
   sectionTitle: {
-    color: '#888',
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 10,

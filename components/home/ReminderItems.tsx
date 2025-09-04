@@ -58,11 +58,11 @@ const ReminderItems = (data: data) => {
             <View style={styles.infoWrapper}>
                 <View style={styles.headerRow}>
                     <Text style={styles.medicineName}>{item.medicineName}</Text>
-                    <View style={[styles.badge, { backgroundColor: item.done ? "#e8f5e9" : "#fff3e0" }]}>
+                    {!data.togleShow && <View style={[styles.badge, { backgroundColor: item.done ? "#e8f5e9" : "#fff3e0" }]}>
                         <Text style={{ fontSize: 11, color: item.done ? "#2e7d32" : "#ef6c00" }}>
                             {item.done ? "Done" : "Pending"}
                         </Text>
-                    </View>
+                    </View>}
                 </View>
 
                 <Text style={styles.meta}>

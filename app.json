@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Medi.",
+    "name": "Medics.",
     "slug": "medicine-reminder",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,14 +14,14 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1b9a8f"
       },
       "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       "expo-router",

@@ -1,5 +1,6 @@
 import AddButton from '@/components/AddButton';
 import CommonWrapper from '@/components/CommonWrapper';
+import ReminderItems from '@/components/home/ReminderItems';
 import { _colors } from '@/theme';
 import { formatDate, formatDateYYYMMDD } from '@/utils/date';
 import { getRemindersByDate } from '@/utils/db';
@@ -56,10 +57,7 @@ const Schedule: React.FC = () => {
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(_, index) => index.toString()}
                 renderItem={({ item }) => (
-                  <View style={styles.card}>
-                    <Text style={styles.time}>{item.medicineName} - {item.medicineType}</Text>
-                    <Text style={styles.dosage}>{item.dose}</Text>
-                  </View>
+                  <ReminderItems key={item.id} i={item} />
                 )}
               />
             )}

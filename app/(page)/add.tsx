@@ -23,6 +23,7 @@ const AddReminder = () => {
   const [duration, setDuration] = useState("2");
   const [durationUnit, setDurationUnit] = useState("days");
   const [consume, setConsume] = useState("1")
+  const [adding, setAdding] = useState(false)
 
   const [showCalendar, setShowCalendar] = useState(false)
 
@@ -101,11 +102,17 @@ const AddReminder = () => {
     const allReminders = expandReminders(time, Number(duration), durationUnit, baseData as Reminder);
 
     try {
+      setAdding(true)
       await addReminderList(db, allReminders)
+      setSelectedMedicine(undefined);
+      setDose("1");
+      setFrequency("1");
       Alert.alert("Success", "Reminders saved successfully");
     } catch (error) {
       console.error("Error saving reminders:", error);
       Alert.alert("Error", "Failed to save reminders");
+    } finally {
+      setAdding(false)
     }
   }
 
@@ -137,7 +144,14 @@ const AddReminder = () => {
           <View style={{ position: "relative" }}>
             <View style={styles.pickerWrapper}>
               <TouchableOpacity onPress={() => { setShowCalendar(true) }} style={{ flex: 1 }}>
-                <Text style={{ padding: 15 }}>{time.toLocaleString()}</Text>
+                <Text style={{ padding: 15 }}>
+                  {new Date(time).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
+                </Text>
                 <AntDesign name="calendar" size={20} style={{ position: "absolute", right: 10, top: 15 }} />
               </TouchableOpacity>
             </View>
@@ -226,10 +240,10 @@ const AddReminder = () => {
             </View>
           </View>
 
-          <Button mode="contained" onPress={saveReminder} style={styles.button}>
-            Save Reminder
-          </Button>
         </ScrollView>
+        <Button mode="contained" onPress={saveReminder} style={styles.button} loading={adding} disabled={adding}>
+          Save Reminder
+        </Button>
       </KeyboardAvoidingView>
     </CommonWrapper >
   );
@@ -237,11 +251,11 @@ const AddReminder = () => {
 
 const styles = StyleSheet.create({
   container: { paddingHorizontal: 20, paddingBottom: 40, flexGrow: 1 },
-  heading: { fontSize: 24, fontWeight: "bold", margin: 20, marginTop: 20 },
+  heading: { fontSize: 24, fontWeight: "bold", margin: 20, marginTop: 20, color: _colors.primary },
   subheading: { fontSize: 16, marginBottom: 5, fontWeight: "500" },
   input: { marginBottom: 15 },
   row: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
-  button: { marginTop: 20, padding: 5, backgroundColor: _colors.primary },
+  button: { margin: 20, padding: 5, backgroundColor: _colors.primary },
   pickerWrapper: {
     borderWidth: 1,
     borderColor: "#ccc",

@@ -8,14 +8,18 @@ import { Checkbox } from 'react-native-paper';
 
 type IconRenderTuple = [React.ComponentType<any>, string, string];
 
-const ReminderItems = (i: RawReminder) => {
-    const db = useSQLiteContext()
-    const [item, setItem] = React.useState<RawReminder>(i)
+interface data { i: RawReminder, togleShow?: boolean }
+
+const ReminderItems = (data: data) => {
+    const db = useSQLiteContext();
+    const [item, setItem] = React.useState<RawReminder>(data.i);
+
     const dateObj = new Date(item.date);
     const day = dateObj.getDate();
-    const month = dateObj.toLocaleString('default', { month: 'long' });
+    const month = dateObj.toLocaleString('default', { month: 'short' });
     const year = dateObj.getFullYear();
     const currentYear = new Date().getFullYear();
+    const formattedDate = `${day} ${month}${year !== currentYear ? `, ${year}` : ""}`;
 
     const getIconByType = (type: MedicineType): IconRenderTuple => {
         switch (type) {
@@ -30,76 +34,122 @@ const ReminderItems = (i: RawReminder) => {
             case "cream":
                 return [MaterialCommunityIcons, "lotion-plus-outline", "#795548"];
             default:
-                return [Ionicons, "add-circle", "#607d8b"];
+                return [Ionicons, "medkit", "#607d8b"];
         }
     };
 
     const [IconComponent, iconName, iconColor] = getIconByType(item.medicineType);
 
     const handleCheckBoxYes = async () => {
-        const r: boolean = await updateReminderStatus(db, item.id, true)
+        const r: boolean = await updateReminderStatus(db, item.id, true);
         if (r) {
-            setItem({ ...item, done: 1 })
+            setItem({ ...item, done: 1 });
         }
-    }
+    };
 
     return (
         <View key={item.id} style={styles.card}>
-            <View style={styles.cardLeft}>
-                <IconComponent
-                    name={iconName}
-                    size={24}
-                    style={styles.icon}
-                    color={iconColor}
-                />
-                <View>
-                    <Text style={styles.time}>{day + " " + month + (year === currentYear ? "" : ", " + year)}</Text>
-                    <Text style={styles.name}>{item.medicineName}</Text>
-                    <Text style={styles.dose}>{item.dose}</Text>
+            {/* Left: Medicine Icon */}
+            <View style={styles.iconWrapper}>
+                <IconComponent name={iconName} size={28} color={iconColor} />
+            </View>
+
+            {/* Middle: Info */}
+            <View style={styles.infoWrapper}>
+                <View style={styles.headerRow}>
+                    <Text style={styles.medicineName}>{item.medicineName}</Text>
+                    <View style={[styles.badge, { backgroundColor: item.done ? "#e8f5e9" : "#fff3e0" }]}>
+                        <Text style={{ fontSize: 11, color: item.done ? "#2e7d32" : "#ef6c00" }}>
+                            {item.done ? "Done" : "Pending"}
+                        </Text>
+                    </View>
+                </View>
+
+                <Text style={styles.meta}>
+                    {item.dose} {item.medicineType} • {item.frequency}x/day
+                </Text>
+
+                <View style={styles.row}>
+                    <Ionicons name="restaurant" size={14} color="#00796b" style={{ marginRight: 4 }} />
+                    <Text style={styles.consume}>{item.consume}</Text>
+                </View>
+
+                <View style={styles.row}>
+                    <Ionicons name="calendar-outline" size={14} color="#555" style={{ marginRight: 4 }} />
+                    <Text style={styles.date}>{formattedDate}</Text>
                 </View>
             </View>
-            <Checkbox
-                status={item.done ? 'checked' : 'unchecked'}
-                onPress={() => {
-                    handleCheckBoxYes()
-                }}
+
+            {/* Right: Checkbox */}
+            {data.togleShow && <Checkbox
+                status={item.done ? "checked" : "unchecked"}
+                onPress={handleCheckBoxYes}
                 color={_colors.primary}
-            />
+            />}
         </View>
     );
 };
 
-export default ReminderItems
+export default ReminderItems;
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#fff',
-        padding: 15,
+        backgroundColor: "#fff",
+        padding: 14,
         marginVertical: 8,
-        borderRadius: 10,
-        elevation: 2,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginHorizontal: 1,
+        borderRadius: 12,
+        elevation: 3,
+        flexDirection: "row",
+        alignItems: "flex-start",
+        marginHorizontal: 4,
+        shadowColor: "#000",
+        shadowOpacity: 0.05,
+        shadowRadius: 3,
     },
-    cardLeft: {
-        flexDirection: 'row',
-        alignItems: 'center',
+    iconWrapper: {
+        width: 46,
+        height: 46,
+        borderRadius: 23,
+        backgroundColor: "#f1f1f1",
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: 12,
     },
-    icon: {
-        marginRight: 10,
+    infoWrapper: {
+        flex: 1,
     },
-    time: {
-        fontWeight: 'bold',
+    headerRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    medicineName: {
         fontSize: 16,
+        fontWeight: "600",
+        color: "#333",
+        flexShrink: 1,
     },
-    name: {
-        fontSize: 14,
+    badge: {
+        paddingHorizontal: 8,
+        paddingVertical: 2,
+        borderRadius: 6,
+    },
+    meta: {
+        fontSize: 13,
+        color: "#666",
         marginTop: 2,
     },
-    dose: {
-        fontSize: 12,
-        color: '#888',
+    row: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 2,
     },
-})
+    consume: {
+        fontSize: 12,
+        color: "#00796b",
+    },
+    date: {
+        fontSize: 12,
+        color: "#999",
+    },
+});

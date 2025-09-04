@@ -5,10 +5,9 @@ import { Tabs } from 'expo-router';
 import { StatusBar } from 'react-native';
 
 export default function MainLayout() {
-
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" backgroundColor={_colors.primary} />
       <Tabs
         screenOptions={({ route }) => ({
           headerShown: false,

@@ -24,7 +24,9 @@ const OnboardingScreen = () => {
                 await handleName(name)
                 router.replace("/(main)/home");
             }
-            SplashScreen.hide()
+            setTimeout(async () => {
+                await SplashScreen.hideAsync();
+            }, 2000);
         })
     }
 

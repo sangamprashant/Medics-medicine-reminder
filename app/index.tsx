@@ -19,16 +19,13 @@ const OnboardingScreen = () => {
     }, [])
 
     const fetchName = async () => {
-        await getUserName().then(async (name: string | null) => {
-            if (name) {
-                await handleName(name)
-                router.replace("/(main)/home");
-            }
-            setTimeout(async () => {
-                await SplashScreen.hideAsync();
-            }, 2000);
-        })
-    }
+        const name = await getUserName();
+        if (name) {
+            await handleName(name);
+            setTimeout(() => router.replace("/(main)/home"), 0);
+        }
+        await SplashScreen.hideAsync();
+    };
 
     const click = () => router.replace('/name');
 

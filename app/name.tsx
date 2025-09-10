@@ -16,7 +16,6 @@ const NameScreen = () => {
         if (input.trim().length > 0) {
             await handleName(input.trim());
             let per: boolean = await requestPermissions()
-            sendNotification("Hello 👋", "This is a test notification!")
             if (per) {
                 router.replace("/(main)/home")
             }

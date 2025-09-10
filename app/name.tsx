@@ -1,6 +1,7 @@
 import CommonWrapper from "@/components/CommonWrapper";
 import { useAppData } from "@/providers/appDataProvider";
 import { _colors } from "@/theme";
+import { requestPermissions, sendNotification } from "@/utils/notificationService";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -14,7 +15,11 @@ const NameScreen = () => {
     const handleSave = async () => {
         if (input.trim().length > 0) {
             await handleName(input.trim());
-            router.replace("/(main)/home")
+            let per: boolean = await requestPermissions()
+            sendNotification("Hello 👋", "This is a test notification!")
+            if (per) {
+                router.replace("/(main)/home")
+            }
         }
     };
 

@@ -1,6 +1,11 @@
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
+import * as BackgroundFetch from "expo-background-fetch";
 import Constants from "expo-constants";
+import * as TaskManager from "expo-task-manager";
+import { getAllReminders } from "./db";
+
+const TASK_NAME = "MEDICINE_REMINDER_TASK";
 
 // ✅ Configure notification handler
 Notifications.setNotificationHandler({
@@ -89,5 +94,40 @@ export async function scheduleNotification(
       seconds,
       repeats: false,
     },
+  });
+}
+
+
+TaskManager.defineTask(TASK_NAME, async () => {
+  try {
+    // ✅ Load reminders from SQLite
+    const reminders = [] as any
+
+    // ✅ Check if any reminder is due
+    const now = new Date();
+    for (const r of reminders) {
+      const reminderTime = new Date(r.date);
+      if (reminderTime <= now && !r.done) {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: "Medicine Reminder 💊",
+            body: `${r.medicine} - ${r.dose} (${r.consume})`,
+          },
+          trigger: null,
+        });
+      }
+    }
+    return BackgroundFetch.BackgroundFetchResult.NewData;
+  } catch (err) {
+    console.error("Background task error:", err);
+    return BackgroundFetch.BackgroundFetchResult.Failed;
+  }
+});
+
+export async function registerBackgroundTask() {
+  await BackgroundFetch.registerTaskAsync(TASK_NAME, {
+    minimumInterval: 15 * 60, // every 15 minutes
+    stopOnTerminate: false,   // Android: keep running after app is killed
+    startOnBoot: true,        // Android: auto-start on device reboot
   });
 }

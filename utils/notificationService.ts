@@ -3,7 +3,12 @@ import * as Device from "expo-device";
 import * as BackgroundFetch from "expo-background-fetch";
 import Constants from "expo-constants";
 import * as TaskManager from "expo-task-manager";
-import { getAllReminders } from "./db";
+import {
+  getAllReminders,
+  getRemindersByDate,
+  getRemindersByDateWithoutDbPass,
+} from "./db";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TASK_NAME = "MEDICINE_REMINDER_TASK";
 
@@ -97,37 +102,73 @@ export async function scheduleNotification(
   });
 }
 
-
+// ✅ Background Task
 TaskManager.defineTask(TASK_NAME, async () => {
   try {
-    // ✅ Load reminders from SQLite
-    const reminders = [] as any
-
-    // ✅ Check if any reminder is due
     const now = new Date();
+    const todayDateStr = now.toISOString().split("T")[0]; // YYYY-MM-DD
+
+    // Read last loaded date from storage
+    const lastLoadedDate = await AsyncStorage.getItem("lastReminderDate");
+
+    // ⏭ Skip if today's reminders already loaded
+    if (lastLoadedDate === todayDateStr) {
+      console.log("⏭ Skipping, today's reminders already scheduled");
+      return BackgroundFetch.BackgroundFetchResult.NoData;
+    }
+
+    // ✅ New day → load today's reminders
+    const reminders = await getRemindersByDateWithoutDbPass(now);
+
     for (const r of reminders) {
-      const reminderTime = new Date(r.date);
-      if (reminderTime <= now && !r.done) {
-        await Notifications.scheduleNotificationAsync({
-          content: {
-            title: "Medicine Reminder 💊",
-            body: `${r.medicine} - ${r.dose} (${r.consume})`,
-          },
-          trigger: null,
-        });
+      if (r.done) {
+        await scheduleDailyReminders(r);
       }
     }
+
+    // Save today as processed
+    await AsyncStorage.setItem("lastReminderDate", todayDateStr);
+
+    console.log("✅ Reminders scheduled for", now.toDateString());
     return BackgroundFetch.BackgroundFetchResult.NewData;
   } catch (err) {
-    console.error("Background task error:", err);
+    console.error("❌ Background task error:", err);
     return BackgroundFetch.BackgroundFetchResult.Failed;
   }
 });
 
 export async function registerBackgroundTask() {
-  await BackgroundFetch.registerTaskAsync(TASK_NAME, {
-    minimumInterval: 15 * 60, // every 15 minutes
-    stopOnTerminate: false,   // Android: keep running after app is killed
-    startOnBoot: true,        // Android: auto-start on device reboot
-  });
+  const isRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
+  if (!isRegistered) {
+    await BackgroundFetch.registerTaskAsync(TASK_NAME, {
+      minimumInterval: 15 * 60, // 15 minutes
+      stopOnTerminate: false, // Android: keep running
+      startOnBoot: true, // Android: auto-start on reboot
+    });
+  }
+}
+
+
+async function scheduleDailyReminders(r: RawReminder) {
+  // Fixed reminder times
+  const reminderTimes = [
+    { hour: 8, minute: 0 },  // Morning 8:00 AM
+    { hour: 12, minute: 0 }, // Noon 12:00 PM
+    { hour: 19, minute: 0 }, // Evening 7:00 PM
+  ];
+
+  for (const t of reminderTimes) {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "💊 Medicine Reminder",
+        body: `${r.medicineName} - ${r.dose} (${r.consume})`,
+      },
+      trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.CALENDAR, // 👈 required
+        hour: t.hour,
+        minute: t.minute,
+        repeats: false, // 🔑 ensures it repeats daily
+      },
+    });
+  }
 }

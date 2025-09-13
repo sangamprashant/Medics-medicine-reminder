@@ -1,5 +1,5 @@
 import { commonMedicines } from "@/initial/medicine-init";
-import { SQLiteDatabase } from "expo-sqlite";
+import { openDatabaseAsync, SQLiteDatabase } from "expo-sqlite";
 
 export async function migrateDbIfNeeded(db: SQLiteDatabase) {
   const DATABASE_VERSION = 1;
@@ -180,6 +180,26 @@ export async function getRemindersByDate(db: SQLiteDatabase, date: Date) {
   );
 }
 
+export async function getRemindersByDateWithoutDbPass(date: Date) {
+  const db = await openDatabaseAsync("medicines.db");
+
+  const startOfDay = new Date(date);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(date);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  return db.getAllAsync<RawReminder>(
+    `
+    SELECT r.*, m.name as medicineName, m.type as medicineType
+    FROM reminders r
+    LEFT JOIN medicines m ON r.medicine = m.id
+    WHERE r.date BETWEEN ? AND ?
+  `,
+    [startOfDay.toISOString(), endOfDay.toISOString()]
+  );
+}
+
 export async function updateReminderStatus(
   db: SQLiteDatabase,
   id: number,
@@ -201,7 +221,7 @@ export async function updateReminderStatus(
 // Page size = 10 days
 const PAGE_SIZE = 10;
 
-// only today and previous dates in group i 10-10 like pageinition 
+// only today and previous dates in group i 10-10 like pageinition
 export async function getGroupedByDate(db: SQLiteDatabase, page: number = 1) {
   const offset = (page - 1) * PAGE_SIZE;
   const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD

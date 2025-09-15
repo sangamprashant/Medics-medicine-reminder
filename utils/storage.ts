@@ -1,9 +1,8 @@
-// utils/storage.ts
-import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function saveUserName(name: string) {
   try {
-    await SecureStore.setItemAsync("user_name", name);
+    await AsyncStorage.setItem("user_name", name);
   } catch (e) {
     console.error("Error saving username:", e);
   }
@@ -11,7 +10,7 @@ export async function saveUserName(name: string) {
 
 export async function getUserName(): Promise<string | null> {
   try {
-    return await SecureStore.getItemAsync("user_name");
+    return await AsyncStorage.getItem("user_name");
   } catch (e) {
     console.error("Error loading username:", e);
     return null;

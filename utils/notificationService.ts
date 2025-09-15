@@ -3,11 +3,7 @@ import * as Device from "expo-device";
 import * as BackgroundFetch from "expo-background-fetch";
 import Constants from "expo-constants";
 import * as TaskManager from "expo-task-manager";
-import {
-  getAllReminders,
-  getRemindersByDate,
-  getRemindersByDateWithoutDbPass,
-} from "./db";
+import { getRemindersByDateWithoutDbPass } from "./db";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TASK_NAME = "MEDICINE_REMINDER_TASK";
@@ -148,11 +144,10 @@ export async function registerBackgroundTask() {
   }
 }
 
-
 async function scheduleDailyReminders(r: RawReminder) {
   // Fixed reminder times
   const reminderTimes = [
-    { hour: 8, minute: 0 },  // Morning 8:00 AM
+    { hour: 8, minute: 0 }, // Morning 8:00 AM
     { hour: 12, minute: 0 }, // Noon 12:00 PM
     { hour: 19, minute: 0 }, // Evening 7:00 PM
   ];

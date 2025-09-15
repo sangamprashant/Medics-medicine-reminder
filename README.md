@@ -1,126 +1,50 @@
-# 💊 Medicine Reminder App
+# Welcome to your Expo app 👋
 
-A simple and beautiful React Native app built with Expo to help users manage their medicine schedules effectively. The app sends timely reminders and keeps track of medicine intake for improved health management.
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
----
+## Get started
 
-## 📱 Features
+1. Install dependencies
 
-- 🕒 Schedule multiple medicines with time and dosage
-- 🔔 Automatic reminders via notifications
-- 📆 Daily schedule overview
-- 📋 Home screen with upcoming medicine alerts
-- 🌙 Light & dark theme support (optional)
-- 💾 Data persistence using local storage
-- ⚙️ Built with modern tools (Expo Router, NativeWind, TypeScript)
+   ```bash
+   npm install
+   ```
 
----
+2. Start the app
 
-## 🚀 Tech Stack
+   ```bash
+   npx expo start
+   ```
 
-- **React Native** with **Expo**
-- **TypeScript**
-- **NativeWind (Tailwind CSS for React Native)**
-- **Expo Router** for navigation
-- **AsyncStorage** or **SQLite** for local data
-- **Expo Notifications** for scheduling reminders
+In the output, you'll find options to open the app in a
 
----
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-## 📦 Installation
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-1. Clone the repository:
+## Get a fresh project
+
+When you're ready, run:
 
 ```bash
-git clone https://github.com/your-username/medicine-reminder-app.git
-cd medicine-reminder-app
-````
-
-2. Install dependencies:
-
-```bash
-npm install
-# or
-yarn
+npm run reset-project
 ```
 
-3. Start the app:
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-```bash
-npx expo start
-```
+## Learn more
 
-> Make sure you have the **Expo Go app** installed on your mobile device for testing.
+To learn more about developing your project with Expo, look at the following resources:
 
----
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## 🔔 Setting up Notifications
+## Join the community
 
-To enable notifications:
+Join our community of developers creating universal apps.
 
-1. Install notifications library:
-
-```bash
-npx expo install expo-notifications
-```
-
-2. Follow [Expo Notifications Setup Guide](https://docs.expo.dev/versions/latest/sdk/notifications/) for permissions and scheduling.
-
----
-
-## 🛠 Configuration
-
-### Babel
-
-> Ensure you are using the correct plugin:
-
-In `babel.config.js`:
-
-```js
-plugins: ['react-native-worklets/plugin']
-```
-
-If you see warnings about `react-native-reanimated/plugin`, replace it as shown above and run:
-
-```bash
-npm install react-native-worklets
-```
-
----
-
-## 📸 Screenshots
-
-| Home Screen                   | Schedule Medicines                    |
-| ----------------------------- | ------------------------------------- |
-| ![Home](screenshots/home.png) | ![Schedule](screenshots/schedule.png) |
-
----
-
-## 📅 Future Enhancements
-
-* Cloud sync (Firebase or Supabase)
-* Support for multiple users
-* Refill reminders
-* Voice assistant integration
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/xyz`)
-3. Commit your changes (`git commit -am 'Add feature xyz'`)
-4. Push to the branch (`git push origin feature/xyz`)
-5. Create a new Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-## ✨ Credits
-
-Created by Prashant Srivastav, Inspired by the need to stay on top of your daily medications.
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

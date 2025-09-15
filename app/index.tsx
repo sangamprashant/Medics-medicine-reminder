@@ -44,7 +44,7 @@ const OnboardingScreen = () => {
                 padding: 6,
                 borderRadius: 50,
             }}>
-                <AntDesign name="arrowright" size={22} color="white" />
+                <AntDesign name="arrow-right" size={22} color="white" />
             </View>
         </TouchableOpacity>
     );
@@ -80,7 +80,7 @@ const OnboardingScreen = () => {
                     backgroundColor: '#fff',
                     image: (
                         <Image
-                            source={require('@/assets/images/doctor1.jpg')}
+                            source={require('@/assets/images/doctor1.png')}
                             style={{ width: 189, height: 284 }}
                             resizeMode="contain"
                         />
@@ -92,7 +92,7 @@ const OnboardingScreen = () => {
                     backgroundColor: '#fff',
                     image: (
                         <Image
-                            source={require('@/assets/images/doctor2.jpg')}
+                            source={require('@/assets/images/doctor2.png')}
                             style={{ width: 189, height: 284 }}
                             resizeMode="contain"
                         />

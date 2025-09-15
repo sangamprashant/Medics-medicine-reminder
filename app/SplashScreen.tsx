@@ -1,10 +1,6 @@
-// SplashScreen.tsx
-import { useRouter } from "expo-router";
 import { Image, Text, View } from "react-native";
 
 export default function Index() {
-  const router = useRouter();
-
   return (
     <View
       style={{
@@ -15,7 +11,7 @@ export default function Index() {
       }}
     >
       <Image
-        source={require("@/assets/images/logo.png")} 
+        source={require("@/assets/images/logo.png")}
         style={{ width: 120, height: 120, marginBottom: 20 }}
         resizeMode="contain"
       />

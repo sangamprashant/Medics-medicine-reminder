@@ -1,7 +1,7 @@
 import CommonWrapper from "@/components/CommonWrapper";
 import { useAppData } from "@/providers/appDataProvider";
 import { _colors } from "@/theme";
-import { requestPermissions, sendNotification } from "@/utils/notificationService";
+import { requestPermissions } from "@/utils/notificationService";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";

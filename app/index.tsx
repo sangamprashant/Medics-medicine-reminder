@@ -4,7 +4,7 @@ import { getUserName } from '@/utils/storage';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 
@@ -14,7 +14,7 @@ const OnboardingScreen = () => {
     const router = useRouter();
     const { handleName } = useAppData()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         fetchName()
     }, [])
 
@@ -30,9 +30,7 @@ const OnboardingScreen = () => {
     const click = () => router.replace('/name');
 
     const Skip = ({ ...props }) => (
-        <TouchableOpacity style={{ marginHorizontal: 10 }} {...props}>
-            <Text style={{ fontSize: 16, color: _colors.primary }}>Skip</Text>
-        </TouchableOpacity>
+        <ButtonText text="Skip" {...props} />
     );
 
     const Next = ({ ...props }) => (
@@ -50,9 +48,7 @@ const OnboardingScreen = () => {
     );
 
     const Done = ({ ...props }) => (
-        <TouchableOpacity style={{ marginHorizontal: 10 }} {...props}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', color: _colors.primary }}>Get Started</Text>
-        </TouchableOpacity>
+        <ButtonText text="Get Started" {...props} />
     );
 
     return (
@@ -78,38 +74,20 @@ const OnboardingScreen = () => {
             pages={[
                 {
                     backgroundColor: '#fff',
-                    image: (
-                        <Image
-                            source={require('@/assets/images/doctor1.png')}
-                            style={{ width: 189, height: 284 }}
-                            resizeMode="contain"
-                        />
-                    ),
-                    title: 'Consult only with a doctor you trust',
+                    image: <ImageContainer name="doctor1" />,
+                    title: <TitleContainer title='Consult only with a doctor you trust' />,
                     subtitle: '',
                 },
                 {
                     backgroundColor: '#fff',
-                    image: (
-                        <Image
-                            source={require('@/assets/images/doctor2.png')}
-                            style={{ width: 189, height: 284 }}
-                            resizeMode="contain"
-                        />
-                    ),
-                    title: 'Find a lot of specialist doctors in one place',
+                    image: <ImageContainer name="doctor2" />,
+                    title: <TitleContainer title='Find a lot of specialist doctors in one place' />,
                     subtitle: '',
                 },
                 {
                     backgroundColor: '#fff',
-                    image: (
-                        <Image
-                            source={require('@/assets/images/doctor3.png')}
-                            style={{ width: 189, height: 284 }}
-                            resizeMode="contain"
-                        />
-                    ),
-                    title: 'Get connected to our Online Consultation',
+                    image: <ImageContainer name="doctor3" />,
+                    title: <TitleContainer title='Get connected to our Online Consultation' />,
                     subtitle: '',
                 },
             ]}
@@ -118,3 +96,62 @@ const OnboardingScreen = () => {
 };
 
 export default OnboardingScreen;
+
+export const images: Record<string, any> = {
+    doctor1: require("@/assets/images/doctor1.png"),
+    doctor2: require("@/assets/images/doctor2.png"),
+    doctor3: require("@/assets/images/doctor3.png"),
+};
+
+const ImageContainer = ({ name }: { name: keyof typeof images }) => {
+    return (
+        <View
+            style={{
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#fcfcfcff", // soft background for contrast
+                borderRadius: "100%",
+                padding: 0,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 3,
+                overflow: "hidden"
+            }}
+        >
+            <Image
+                source={images[name]}
+                style={{ width: 220, height: 220, borderRadius: 16 }}
+                resizeMode="contain"
+            />
+        </View>
+    );
+};
+
+
+const TitleContainer = ({ title }: { title: string }) => {
+    return (
+        <View style={{ marginTop: 24, paddingHorizontal: 20 }}>
+            <Text
+                style={{
+                    fontSize: 25,
+                    fontWeight: "600",
+                    color: _colors.primary,
+                    textAlign: "center",
+                    lineHeight: 30,
+                }}
+            >
+                {title}
+            </Text>
+        </View>
+    );
+};
+
+const ButtonText = ({ text, ...props }: { text: string }) => {
+    return (
+        <TouchableOpacity style={{ marginHorizontal: 10 }} {...props}>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: _colors.primary }}>{text}</Text>
+        </TouchableOpacity>
+    );
+}

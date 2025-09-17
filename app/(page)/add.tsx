@@ -221,11 +221,11 @@ const AddReminder = () => {
               label="Duration"
               value={duration}
               onChangeText={setDuration}
-              style={[styles.input, { flex: 1, marginRight: 10, width: 50 }]}
+              style={[styles.input, { flex: 1, marginRight: 10, width: 50, marginTop: 10 }]}
               mode="outlined"
               keyboardType="numeric"
             />
-            <View style={{ flex: 1, borderColor: "#ccc", borderWidth: 1, borderRadius: 8, backgroundColor: "#fff" }}>
+            <View style={{ flex: 1, borderColor: "#bbb", borderWidth: 1, borderRadius: 8, backgroundColor: "#fff", overflow: "hidden" }}>
               <RNPickerSelect
                 value={durationUnit}
                 onValueChange={setDurationUnit}
@@ -269,12 +269,14 @@ const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     borderColor: "#ccc",
     color: "black",
-    backgroundColor: "white"
+    backgroundColor: "white",
+    margin: 0
   },
   inputAndroid: {
     borderColor: "#ccc",
     color: "black",
-    backgroundColor: "white"
+    backgroundColor: "white",
+    margin: 0
   },
 });
 

@@ -5,13 +5,14 @@ import { registerBackgroundTask, registerForPushNotificationsAsync } from "@/uti
 import { Stack } from "expo-router";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect } from "react";
-import { StatusBar } from "react-native";
+import { Appearance, StatusBar } from "react-native";
 
 export default function RootLayout() {
   useEffect(() => {
     Promise.all([
       registerForPushNotificationsAsync(),
-      registerBackgroundTask()
+      registerBackgroundTask(),
+      Appearance.setColorScheme("light")
     ])
   }, []);
   return (

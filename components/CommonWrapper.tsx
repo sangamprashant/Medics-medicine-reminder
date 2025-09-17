@@ -1,7 +1,7 @@
 // components/CommonWrapper.tsx
 import React, { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 type CommonWrapperProps = {
     children: ReactNode;
@@ -15,11 +15,13 @@ const CommonWrapper = ({
     padding = 16,
 }: CommonWrapperProps) => {
     return (
-        <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
-            <View style={{ flex: 1, padding }}>
-                {children}
-            </View>
-        </SafeAreaView>
+        <SafeAreaProvider>
+            <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+                <View style={{ flex: 1, padding }}>
+                    {children}
+                </View>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 };
 

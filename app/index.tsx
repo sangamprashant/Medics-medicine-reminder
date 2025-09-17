@@ -129,7 +129,6 @@ const ImageContainer = ({ name }: { name: keyof typeof images }) => {
     );
 };
 
-
 const TitleContainer = ({ title }: { title: string }) => {
     return (
         <View style={{ marginTop: 24, paddingHorizontal: 20 }}>

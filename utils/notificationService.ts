@@ -1,10 +1,11 @@
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as BackgroundFetch from "expo-background-fetch";
 import Constants from "expo-constants";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 import * as TaskManager from "expo-task-manager";
+import { ToastAndroid } from "react-native";
 import { getRemindersByDateWithoutDbPass } from "./db";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TASK_NAME = "MEDICINE_REMINDER_TASK";
 
@@ -21,7 +22,7 @@ Notifications.setNotificationHandler({
 // ✅ Register and get Expo Push Token
 export async function registerForPushNotificationsAsync() {
   if (!Device.isDevice) {
-    alert("Must use physical device for Push Notifications");
+    ToastAndroid.show("Must use physical device for Push Notifications", ToastAndroid.LONG);
     return;
   }
 
@@ -43,7 +44,7 @@ export async function registerForPushNotificationsAsync() {
     finalStatus = status;
   }
   if (finalStatus !== "granted") {
-    alert("Failed to get push token!");
+    ToastAndroid.show("Failed to get push token for push notification!", ToastAndroid.LONG);
     return;
   }
 
@@ -54,7 +55,7 @@ export async function registerForPushNotificationsAsync() {
 
   const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
 
-  console.log("Expo push token:", token);
+  // console.log("Expo push token:", token);
   return token;
 }
 
@@ -62,7 +63,7 @@ export async function registerForPushNotificationsAsync() {
 export async function requestPermissions(): Promise<boolean> {
   const { status } = await Notifications.requestPermissionsAsync();
   if (status !== "granted") {
-    alert("Permission for notifications not granted!");
+    ToastAndroid.show("Permission for notifications not granted!", ToastAndroid.LONG);
     return false;
   }
   return true;

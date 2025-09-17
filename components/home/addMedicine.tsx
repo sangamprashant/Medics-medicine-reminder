@@ -4,8 +4,7 @@ import { addMedicine } from "@/utils/db";
 import { Picker } from "@react-native-picker/picker";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useState } from "react";
-import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from "react-native";
 
 const AddMedicine = () => {
     const [medicineName, setMedicineName] = useState("");
@@ -16,7 +15,7 @@ const AddMedicine = () => {
 
     const handleSubmit = async () => {
         if (!medicineName.trim()) {
-            Alert.alert("Validation", "Please enter a medicine name");
+            ToastAndroid.show("Please enter a medicine name.", ToastAndroid.SHORT);
             return;
         }
 
@@ -25,8 +24,7 @@ const AddMedicine = () => {
         const upperName = trimName.charAt(0).toUpperCase() + trimName.slice(1);
 
         await addMedicine(db, upperName, medicineType);
-
-        Alert.alert("Success", "Medicine added successfully!");
+        ToastAndroid.show("Medicine added successfully.", ToastAndroid.SHORT);
         setMedicineName("");
         setMedicineType("tablet");
         setLoading(false);
@@ -46,6 +44,7 @@ const AddMedicine = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Enter medicine name"
+                    placeholderTextColor={_colors.placeholder}
                     value={medicineName}
                     onChangeText={setMedicineName}
                 />
@@ -58,7 +57,7 @@ const AddMedicine = () => {
                         onValueChange={(itemValue) => setMedicineType(itemValue as MedicineType)}
                     >
                         {medicineTypes.map((type) => (
-                            <Picker.Item key={type.value} label={type.label} value={type.value} />
+                            <Picker.Item key={type.value} label={type.label} value={type.value} style={{ color: _colors.black }} />
                         ))}
                     </Picker>
                 </View>
@@ -91,6 +90,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 16,
         fontSize: 16,
+        color: "#000",
     },
     pickerWrapper: {
         borderWidth: 1,

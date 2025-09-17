@@ -4,7 +4,7 @@ import { _colors } from "@/theme";
 import { requestPermissions } from "@/utils/notificationService";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from "react-native";
 import Medi from "./medi.svg";
 
 const NameScreen = () => {
@@ -13,12 +13,14 @@ const NameScreen = () => {
     const router = useRouter()
 
     const handleSave = async () => {
-        if (input.trim().length > 0) {
+        if (input.trim().length >= 3) {
             await handleName(input.trim());
             let per: boolean = await requestPermissions()
             if (per) {
                 router.replace("/(main)/home")
             }
+        } else {
+            ToastAndroid.show("Name must be at least 3 characters long.", ToastAndroid.SHORT);
         }
     };
 
@@ -27,7 +29,7 @@ const NameScreen = () => {
             <View style={styles.container}>
                 <Medi width={120} height={120} style={{ marginBottom: 20 }} />
 
-                <Text style={styles.title}>Welcome 👋</Text>
+                <Text style={styles.title}>Welcome</Text>
                 <Text style={styles.subtitle}>Enter your name to get started</Text>
 
                 <TextInput

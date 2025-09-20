@@ -1,6 +1,9 @@
 export default function FeatureSection() {
     return (
-        <section className="w-full py-16 px-6 lg:px-20 flex flex-col lg:flex-row items-center gap-12" id="features">
+        <section
+            id="features"
+            className="w-full py-16 px-6 lg:px-20 flex flex-col lg:flex-row items-center gap-12"
+        >
             {/* Left - Phone mockup */}
             <div className="flex-1 relative flex justify-center">
                 {/* Phone frame */}
@@ -12,39 +15,40 @@ export default function FeatureSection() {
                     />
                 </div>
 
-                {/* Floating cards */}
+                {/* Floating reminder cards */}
                 <div className="absolute z-10 top-10 -left-16 w-60 bg-white shadow-lg rounded-xl p-4">
-                    <p className="text-sm font-medium text-gray-700">VISA Debit VPBank</p>
-                    <p className="text-xs text-gray-500">50,000.000đ / tháng</p>
+                    <p className="text-sm font-medium text-gray-700">💊 Morning Dose</p>
+                    <p className="text-xs text-gray-500">Take 1 tablet of Vitamin D</p>
                 </div>
 
-                <div className="absolute z-10 -top-8 -right-16 w-64 bg-blue-600 text-white shadow-xl rounded-xl p-4">
-                    <p className="text-sm font-semibold">🎉 Chào mừng tới GIMO!</p>
-                    <p className="text-xs">Tìm hiểu về GIMO ›</p>
+                <div className="absolute z-10 -top-8 -right-16 w-64 bg-[#1b9a8f] text-white shadow-xl rounded-xl p-4">
+                    <p className="text-sm font-semibold">⏰ Time to take your medicine!</p>
+                    <p className="text-xs">Don’t miss your scheduled dose</p>
                 </div>
 
                 <div className="absolute z-10 bottom-28 -left-12 w-64 bg-black text-white shadow-xl rounded-xl p-4">
-                    <p className="text-sm font-semibold">🔔 Điền thông tin cá nhân</p>
-                    <p className="text-xs">Để có điểm tín dụng cao hơn</p>
+                    <p className="text-sm font-semibold">📋 Refill Reminder</p>
+                    <p className="text-xs">Your prescription is running low</p>
                 </div>
 
                 <div className="absolute z-10 bottom-8 -right-12 w-64 bg-white shadow-lg rounded-xl p-4">
-                    <p className="text-sm font-medium text-gray-700">Hồ sơ thẻ đã được duyệt</p>
-                    <p className="text-xs text-gray-500">15/06/2019</p>
+                    <p className="text-sm font-medium text-gray-700">✅ Evening Dose Completed</p>
+                    <p className="text-xs text-gray-500">Marked on 20/09/2025</p>
                 </div>
             </div>
 
             {/* Right - Content */}
             <div className="flex-1">
-                <h3 className="text-gray-500 font-medium mb-2">Dynamic Homescreen</h3>
+                <h3 className="text-gray-500 font-medium mb-2">Smart Notifications</h3>
                 <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 leading-snug">
-                    Do what you need to do, <br /> See what you need to see
+                    Do what you need to do, <br /> Take meds when you need to take them
                 </h1>
                 <p className="text-gray-600 text-lg leading-relaxed max-w-lg">
-                    Don’t you just hate it when visiting an app and you see the same things
-                    over and over again? Our homescreen is dynamic, with cards tailored to provide
-                    important details according to your situation — whether you’re onboarding,
-                    have pending requests, need actions, or completed tasks.
+                    Our dynamic reminder system ensures you always stay on schedule. From
+                    morning vitamins to evening prescriptions, the app adapts to your
+                    routine and shows you the right reminder at the right time — whether
+                    it’s time to take a dose, log your progress, or refill your
+                    prescription.
                 </p>
             </div>
         </section>

@@ -1,6 +1,7 @@
-import { FeatureSection, FixedNavbar, FooterBackground, ServiceDetailsSection } from "./components"
-import HeroSection from "./components/Hero"
+import { Route, Routes } from "react-router-dom"
+import { FixedNavbar, FooterBackground } from "./components"
 import NavbarBackground from "./components/navbar/navbar-background"
+import { Home, PrivicyPolicy } from "./pages"
 
 const App = () => {
   return (
@@ -9,9 +10,10 @@ const App = () => {
       <NavbarBackground />
       <FooterBackground />
       <div className="container mx-auto relative z-10 ">
-        <HeroSection />
-        <FeatureSection />
-        <ServiceDetailsSection />
+        <Routes>
+          <Route path="/privacy-policy" element={<PrivicyPolicy />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+
 export default function ServiceDetailsSection() {
     return (
         <section
@@ -17,12 +18,17 @@ export default function ServiceDetailsSection() {
                     different types of medicines. Each reminder can be personalized to
                     suit the user’s health needs.
                 </p>
-
-                <div className="mt-8 flex gap-4">
-                    <button className="px-6 py-3 bg-[#1b9a8f] text-white rounded-xl font-medium shadow-md hover:bg-[#0f867c] transition">
-                        Set a Reminder
-                    </button>
-                </div>
+                <button
+                    className="px-6 py-3 bg-[#1b9a8f] text-white rounded-xl font-medium shadow-md hover:bg-[#0f867c] transition"
+                    onClick={() => {
+                        const section = document.getElementById("download");
+                        if (section) {
+                            section.scrollIntoView({ behavior: "smooth" });
+                        }
+                    }}
+                >
+                    Set a Reminder
+                </button>
             </div>
 
             {/* Right - Phone Screens */}
@@ -54,6 +60,6 @@ export default function ServiceDetailsSection() {
                     />
                 </div>
             </div>
-        </section>
+        </section >
     );
 }

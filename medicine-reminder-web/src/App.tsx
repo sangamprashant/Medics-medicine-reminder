@@ -9,7 +9,7 @@ const App = () => {
       <FixedNavbar />
       <NavbarBackground />
       <FooterBackground />
-      <div className="container mx-auto relative z-10 ">
+      <div className="container mx-auto relative z-10">
         <Routes>
           <Route path="/privacy-policy" element={<PrivicyPolicy />} />
           <Route path="*" element={<Home />} />

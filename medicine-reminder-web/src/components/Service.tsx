@@ -39,6 +39,7 @@ export default function ServiceDetailsSection() {
                         src="/images/5.jpg"
                         alt="Medicine Schedule"
                         className="w-full h-full object-contain"
+                        loading="lazy"
                     />
                 </div>
 
@@ -48,6 +49,7 @@ export default function ServiceDetailsSection() {
                         src="/images/7.jpg"
                         alt="Reminder List"
                         className="w-full h-full object-contain"
+                        loading="lazy"
                     />
                 </div>
 
@@ -57,6 +59,7 @@ export default function ServiceDetailsSection() {
                         src="/images/6.jpg"
                         alt="Medicine Tracking"
                         className="w-full h-full object-contain"
+                        loading="lazy"
                     />
                 </div>
             </div>

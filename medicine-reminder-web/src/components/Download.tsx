@@ -40,7 +40,7 @@ const Download = () => {
                             rel="noopener noreferrer"
                             className="bg-black text-white flex items-center gap-3 px-10 py-3 rounded-xl shadow-lg hover:opacity-90 transition text-nowrap justify-center w-min"
                         >
-                            <img src={link.img} alt={link.bigText} className="h-6" />
+                            <img src={link.img} alt={link.bigText} className="h-6" loading="lazy" />
                             <span className="text-sm text-left leading-tight">
                                 <span className="block text-xs">{link.smallText}</span>
                                 <strong>{link.bigText}</strong>

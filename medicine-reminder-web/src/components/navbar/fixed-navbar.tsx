@@ -47,7 +47,7 @@ const FixedNavbar = () => {
             <div className="container mx-auto flex items-center justify-between px-6 py-4">
                 {/* Logo */}
                 <div className="flex items-center space-x-0 cursor-pointer">
-                    <img src="/icon.png" alt="" width={50} />
+                    <img src="/icon.png" alt="" width={50} loading="lazy" />
                     <span
                         className="text-white font-bold text-2xl cursor-pointer"
                         onClick={() => handleNavClick("home")}

@@ -12,6 +12,7 @@ export default function FeatureSection() {
                         src="/images/9.jpg"
                         alt="App Preview"
                         className="w-full h-full object-cover"
+                        loading="lazy"
                     />
                 </div>
 

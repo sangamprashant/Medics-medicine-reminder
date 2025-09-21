@@ -29,6 +29,7 @@ export default function HeroSection() {
                         src="/images/8.jpg"
                         alt="Medicine Reminder Form"
                         className="w-full h-full object-cover"
+                        loading="lazy"
                     />
                 </div>
 
@@ -38,6 +39,7 @@ export default function HeroSection() {
                         src="/images/2.jpg"
                         alt="Medicine Reminder Login"
                         className="w-full h-full object-cover"
+                        loading="lazy"
                     />
                 </div>
             </div>

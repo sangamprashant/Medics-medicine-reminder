@@ -9,7 +9,7 @@ const Download = () => {
         },
         {
             id: 5,
-            href: "https://github.com/yourusername/your-repo", // replace with your repo URL
+            href: "https://github.com/sangamprashant/Medics-medicine-reminder",
             img: "/images/github.png",
             smallText: "View on",
             bigText: "GitHub Repo",

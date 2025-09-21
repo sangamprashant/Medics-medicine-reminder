@@ -2,7 +2,7 @@
   "expo": {
     "name": "Medics",
     "slug": "medicine-reminder",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "medicinereminder",
@@ -35,7 +35,8 @@
             "backgroundColor": "#1b9a8f"
           }
         }
-      ]
+      ],
+      "expo-background-task"
     ],
     "experiments": {
       "typedRoutes": true,

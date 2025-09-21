@@ -1,4 +1,9 @@
+import { useLayoutEffect } from "react";
+
 const PrivacyPolicy = () => {
+    useLayoutEffect(() => {
+        window.scrollTo(0, 0);
+    })
     return (
         <div className="mx-auto px-6 py-12 text-gray-800 mt-6 md:mt-24 mb-6 md:mb-52 max-w-4xl leading-relaxed">
             <h1 className="text-3xl font-bold mb-6 text-[#000]">
